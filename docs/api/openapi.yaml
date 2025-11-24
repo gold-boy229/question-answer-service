@@ -1,0 +1,381 @@
+openapi: 3.0.3
+info:
+  title: Question-Answer Service (Test Task)
+  version: "1.0.0"
+
+tags:
+  - name: Questions
+  - name: Answers
+
+components:
+  parameters:
+    QuestionIdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Идентификатор вопроса
+    AnswerIdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Идентификатор ответа
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum:
+                - BAD_REQUEST
+                - INTERNAL_SERVER_ERROR
+                - NOT_FOUND
+            message:
+              type: string
+      example:
+        error:
+          code: NOT_FOUND
+          message: resource not found
+    Question:
+      type: object
+      required: [ id, text, created_at ]
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Answer:
+      type: object
+      required: [ id, user_id, question_id, text, created_at ]
+      properties:
+        id:
+          type: integer
+        question_id:
+          type: integer
+        user_id:
+          type: string
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    AnswerShort:
+      type: object
+      required: [ id, user_id, text, created_at ]
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: string
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+paths:
+  /questions/:
+    get:
+      tags: [ Questions ]
+      summary: Получить список всех вопросов
+      responses:
+        '200':
+          description: Список всех вопросов
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ questions ]
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Question"
+              example:
+                questions:
+                  - id: 1
+                    text: first question's text
+                    created_at: 2025-10-24T12:34:56Z
+                  - id: 2
+                    text: second question's text
+                    created_at: 2025-10-24T15:00:00Z
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+    
+    post:
+      tags: [ Questions ]
+      summary: Создать новый вопрос
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ text ]
+              properties:
+                text:
+                  type: string
+            example:
+              text: new question's text
+      responses:
+        '201':
+          description: Вопрос создан
+          content:            
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    $ref: "#/components/schemas/Question" 
+              example:
+                question:
+                    id: 1
+                    text: first question's text
+                    created_at: 2025-10-24T12:34:56Z
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+
+  /questions/{id}:
+    get:
+      tags: [ Questions ]
+      summary: Получить вопрос и все ответы на него
+      parameters:
+        - $ref: '#/components/parameters/QuestionIdPath'
+      responses:
+        '200':
+          description: Вопрос и все ответы на него
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    $ref: "#/components/schemas/Question"
+                  answers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AnswerShort"
+              example:
+                question:
+                  id: 1
+                  text: first question's text
+                  created_at: 2025-10-24T12:34:56Z
+                answers: 
+                  - id: 1
+                    user_id: u1
+                    text: answer one
+                    created_at: 2025-10-25T12:34:56Z
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '404':
+          description: Вопрос не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: NOT_FOUND, message: question not found }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+
+    delete:
+      tags: [ Questions ]
+      summary: Удалить вопрос (вместе с ответами)
+      parameters:
+        - $ref: '#/components/parameters/QuestionIdPath'
+      responses:
+        '200':
+          description: Вопрос и все ответы на него удалены
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '404':
+          description: Вопрос не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: NOT_FOUND, message: question not found }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+
+  /questions/{id}/answers/:
+    post:
+      tags: [ Questions, Answers ]
+      summary: Добавить ответ на вопрос
+      parameters:
+        - $ref: '#/components/parameters/QuestionIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ user_id, text ]
+              properties:
+                user_id:
+                  type: string
+                text:
+                  type: string
+            example:
+              user_id: u1
+              text: answer one
+      responses:
+        '201':
+          description: Вопрос добавлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    $ref: "#/components/schemas/Answer"
+              example:
+                answer: 
+                  id: 2
+                  question_id: 1
+                  user_id: u1
+                  text: answer one
+                  created_at: 2025-10-25T12:34:56Z
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '404':
+          description: Вопрос не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: NOT_FOUND, message: question not found }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+
+  /answers/{id}:
+    get:
+      tags: [ Answers ]
+      summary: Получить конкретный ответ
+      parameters:
+        - $ref: '#/components/parameters/AnswerIdPath'
+      responses:
+        '200':
+          description: Объект вопроса
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    $ref: "#/components/schemas/Answer"
+              example:
+                answer: 
+                  id: 2
+                  question_id: 1
+                  user_id: u1
+                  text: answer one
+                  created_at: 2025-10-25T12:34:56Z
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '404':
+          description: Ответ не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: NOT_FOUND, message: answer not found }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
+    delete:
+      tags: [ Answers ]
+      summary: Удалить ответ
+      parameters:
+        - $ref: '#/components/parameters/AnswerIdPath'
+      responses:
+        '200':
+          description: Ответ удален
+        '400':
+          description: Неправильный запрос
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: BAD_REQUEST, message: invalid request body }
+        '404':
+          description: Ответ не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: NOT_FOUND, message: answer not found }
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              example:
+                error: { code: INTERNAL_SERVER_ERROR, message: internal error }
