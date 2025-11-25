@@ -3,7 +3,9 @@ package app
 import (
 	"fmt"
 	"net/http"
+	"question-answer-service/internal/config"
 	"question-answer-service/internal/handlers"
+	"question-answer-service/internal/repository"
 	"question-answer-service/internal/routes"
 )
 
@@ -12,9 +14,19 @@ type App struct {
 }
 
 func NewApp() *App {
+	configDB, err := config.ReadConfigDB()
+	if err != nil {
+		panic(fmt.Sprintf("Cannot load configDB: %v", err.Error()))
+	}
+
+	repo, err := repository.NewRepository(configDB)
+	if err != nil {
+		panic(fmt.Sprintf("Cannot create repository: %v", err.Error()))
+	}
+
 	var (
 		mux                             = http.NewServeMux()
-		questionHandler questionHandler = handlers.NewQuestionHandler()
+		questionHandler questionHandler = handlers.NewQuestionHandler(repo)
 		answerHandler   answerHandler   = handlers.NewAnswerHandler()
 	)
 
