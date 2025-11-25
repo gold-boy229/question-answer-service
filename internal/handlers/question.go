@@ -1,14 +1,22 @@
 package handlers
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+	"question-answer-service/internal/entity"
+)
 
-type questionHandler struct{}
-
-func NewQuestionHandler() *questionHandler {
-	return &questionHandler{}
+type questionProvider interface {
+	GetAllQuestions(context.Context) ([]entity.Question, error)
 }
 
-func (qh *questionHandler) GetAllQuestions(http.ResponseWriter, *http.Request) {}
+type questionHandler struct {
+	repo questionProvider
+}
+
+func NewQuestionHandler(repo questionProvider) *questionHandler {
+	return &questionHandler{repo: repo}
+}
 
 func (qh *questionHandler) CreateQuestion(http.ResponseWriter, *http.Request) {}
 
