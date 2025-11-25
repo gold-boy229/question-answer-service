@@ -4,22 +4,24 @@ import (
 	"context"
 	"net/http"
 	"question-answer-service/internal/entity"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type questionProvider interface {
-	GetAllQuestions(context.Context) ([]entity.Question, error)
+	QuestionGetAll(context.Context) ([]entity.Question, error)
+	QuestionCreate(context.Context, entity.QuestionCreateParams) (entity.QuestionCreateResult, error)
 }
 
 type questionHandler struct {
-	repo questionProvider
+	repo      questionProvider
+	validator *validator.Validate
 }
 
-func NewQuestionHandler(repo questionProvider) *questionHandler {
-	return &questionHandler{repo: repo}
+func NewQuestionHandler(repo questionProvider, validator *validator.Validate) *questionHandler {
+	return &questionHandler{repo: repo, validator: validator}
 }
 
-func (qh *questionHandler) CreateQuestion(http.ResponseWriter, *http.Request) {}
+func (h *questionHandler) GetQuestionWithAnswersById(http.ResponseWriter, *http.Request) {}
 
-func (qh *questionHandler) GetQuestionWithAnswersById(http.ResponseWriter, *http.Request) {}
-
-func (qh *questionHandler) DeleteQuestionById(http.ResponseWriter, *http.Request) {}
+func (h *questionHandler) DeleteQuestionById(http.ResponseWriter, *http.Request) {}

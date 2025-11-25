@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Question struct {
-	Id        int
+	Id        int `gorm:"primaryKey"`
 	Text      string
 	CreatedAt time.Time
 }

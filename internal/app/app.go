@@ -7,6 +7,8 @@ import (
 	"question-answer-service/internal/handlers"
 	"question-answer-service/internal/repository"
 	"question-answer-service/internal/routes"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type App struct {
@@ -24,9 +26,11 @@ func NewApp() *App {
 		panic(fmt.Sprintf("Cannot create repository: %v", err.Error()))
 	}
 
+	validator := validator.New(validator.WithRequiredStructEnabled())
+
 	var (
 		mux                             = http.NewServeMux()
-		questionHandler questionHandler = handlers.NewQuestionHandler(repo)
+		questionHandler questionHandler = handlers.NewQuestionHandler(repo, validator)
 		answerHandler   answerHandler   = handlers.NewAnswerHandler()
 	)
 

@@ -7,7 +7,7 @@ import (
 	"question-answer-service/internal/model"
 )
 
-func (repo *repository) GetAllQuestions(ctx context.Context) ([]entity.Question, error) {
+func (repo *repository) QuestionGetAll(ctx context.Context) ([]entity.Question, error) {
 	questions := make([]model.Question, 0)
 	_ = repo.DB.Find(&questions)
 

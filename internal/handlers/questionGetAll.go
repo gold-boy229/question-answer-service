@@ -8,7 +8,7 @@ import (
 )
 
 func (h *questionHandler) GetAllQuestions(w http.ResponseWriter, req *http.Request) {
-	questions, err := h.repo.GetAllQuestions(req.Context())
+	questions, err := h.repo.QuestionGetAll(req.Context())
 	if err != nil {
 		ResponseWithJSON(w, http.StatusInternalServerError,
 			dto.NewErrorResponse(enum.ERROR_RESPONSE_INTERNAL_SERVER_ERROR, err.Error()))
