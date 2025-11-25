@@ -1,0 +1,7 @@
+package enum
+
+const (
+	ERROR_RESPONSE_BAD_REQUEST           string = "BAD_REQUEST"
+	ERROR_RESPONSE_INTERNAL_SERVER_ERROR string = "INTERNAL_SERVER_ERROR"
+	ERROR_RESPONSE_NOT_FOUND             string = "NOT_FOUND"
+)
