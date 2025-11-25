@@ -10,14 +10,14 @@ tags:
 components:
   parameters:
     QuestionIdPath:
-      name: id
+      name: questionId
       in: path
       required: true
       schema:
         type: integer
       description: Идентификатор вопроса
     AnswerIdPath:
-      name: id
+      name: answerId
       in: path
       required: true
       schema:
@@ -86,7 +86,7 @@ components:
           format: date-time
 
 paths:
-  /questions/:
+  /questions:
     get:
       tags: [ Questions ]
       summary: Получить список всех вопросов
@@ -164,7 +164,7 @@ paths:
               example:
                 error: { code: INTERNAL_SERVER_ERROR, message: internal error }
 
-  /questions/{id}:
+  /questions/{questionId}:
     get:
       tags: [ Questions ]
       summary: Получить вопрос и все ответы на него
@@ -246,7 +246,7 @@ paths:
               example:
                 error: { code: INTERNAL_SERVER_ERROR, message: internal error }
 
-  /questions/{id}/answers/:
+  /questions/{questionId}/answers:
     post:
       tags: [ Questions, Answers ]
       summary: Добавить ответ на вопрос
@@ -306,7 +306,7 @@ paths:
               example:
                 error: { code: INTERNAL_SERVER_ERROR, message: internal error }
 
-  /answers/{id}:
+  /answers/{answerId}:
     get:
       tags: [ Answers ]
       summary: Получить конкретный ответ

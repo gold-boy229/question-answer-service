@@ -1,11 +1,42 @@
 package app
 
+import (
+	"fmt"
+	"net/http"
+	"question-answer-service/internal/handlers"
+	"question-answer-service/internal/routes"
+)
+
 type App struct {
+	server *http.Server
 }
 
 func NewApp() *App {
-	return &App{}
+	var (
+		mux                             = http.NewServeMux()
+		questionHandler questionHandler = handlers.NewQuestionHandler()
+		answerHandler   answerHandler   = handlers.NewAnswerHandler()
+	)
+
+	mux.HandleFunc(http.MethodGet+" /questions", questionHandler.GetAllQuestions)
+	mux.HandleFunc(http.MethodPost+" /questions", questionHandler.CreateQuestion)
+	mux.HandleFunc(http.MethodGet+" /questions/{"+routes.PathQuestionId+"}", questionHandler.GetQuestionWithAnswersById)
+	mux.HandleFunc(http.MethodDelete+" /questions/{"+routes.PathQuestionId+"}", questionHandler.DeleteQuestionById)
+
+	mux.HandleFunc(http.MethodPost+" /questions/{"+routes.PathQuestionId+"}/answers", answerHandler.AddAnswerToQuestion)
+	mux.HandleFunc(http.MethodGet+" /answers/{"+routes.PathAnswerId+"}", answerHandler.GetAnswerById)
+	mux.HandleFunc(http.MethodDelete+" /answers/{"+routes.PathAnswerId+"}", answerHandler.DeleteAnswerById)
+
+	return &App{
+		server: &http.Server{
+			Addr:    ":8080",
+			Handler: mux,
+		},
+	}
 }
 
 func (a *App) Run() {
+	if err := a.server.ListenAndServe(); err != nil {
+		fmt.Printf("http.ListenAndServe err = %v\n", err)
+	}
 }
