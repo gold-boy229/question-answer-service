@@ -47,9 +47,9 @@ components:
           message: resource not found
     Question:
       type: object
-      required: [ id, text, created_at ]
+      required: [ question_id, text, created_at ]
       properties:
-        id:
+        question_id:
           type: integer
         text:
           type: string
@@ -58,9 +58,9 @@ components:
           format: date-time
     Answer:
       type: object
-      required: [ id, user_id, question_id, text, created_at ]
+      required: [ answer_id, question_id, user_id, text, created_at ]
       properties:
-        id:
+        answer_id:
           type: integer
         question_id:
           type: integer
@@ -73,9 +73,9 @@ components:
           format: date-time
     AnswerShort:
       type: object
-      required: [ id, user_id, text, created_at ]
+      required: [ answer_id, user_id, text, created_at ]
       properties:
-        id:
+        answer_id:
           type: integer
         user_id:
           type: string
@@ -105,10 +105,10 @@ paths:
                       $ref: "#/components/schemas/Question"
               example:
                 questions:
-                  - id: 1
+                  - question_id: 1
                     text: first question's text
                     created_at: 2025-10-24T12:34:56Z
-                  - id: 2
+                  - question_id: 2
                     text: second question's text
                     created_at: 2025-10-24T15:00:00Z
         '500':
@@ -146,7 +146,7 @@ paths:
                     $ref: "#/components/schemas/Question" 
               example:
                 question:
-                    id: 1
+                    question_id: 1
                     text: first question's text
                     created_at: 2025-10-24T12:34:56Z
         '400':
@@ -186,11 +186,11 @@ paths:
                       $ref: "#/components/schemas/AnswerShort"
               example:
                 question:
-                  id: 1
+                  question_id: 1
                   text: first question's text
                   created_at: 2025-10-24T12:34:56Z
                 answers: 
-                  - id: 1
+                  - answer_id: 1
                     user_id: u1
                     text: answer one
                     created_at: 2025-10-25T12:34:56Z
@@ -279,7 +279,7 @@ paths:
                     $ref: "#/components/schemas/Answer"
               example:
                 answer: 
-                  id: 2
+                  answer_id: 2
                   question_id: 1
                   user_id: u1
                   text: answer one
@@ -324,7 +324,7 @@ paths:
                     $ref: "#/components/schemas/Answer"
               example:
                 answer: 
-                  id: 2
+                  answer_id: 2
                   question_id: 1
                   user_id: u1
                   text: answer one

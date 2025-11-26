@@ -1,14 +1,25 @@
 package handlers
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+	"question-answer-service/internal/entity"
 
-type answerHandler struct{}
+	"github.com/go-playground/validator/v10"
+)
 
-func NewAnswerHandler() *answerHandler {
-	return &answerHandler{}
+type answerProvider interface {
+	AnswerCreate(context.Context, entity.AnswerCreateParams) (entity.AnswerCreateResult, error)
 }
 
-func (h *answerHandler) AddAnswerToQuestion(http.ResponseWriter, *http.Request) {}
+type answerHandler struct {
+	repo      answerProvider
+	validator *validator.Validate
+}
+
+func NewAnswerHandler(repo answerProvider, validator *validator.Validate) *answerHandler {
+	return &answerHandler{repo: repo, validator: validator}
+}
 
 func (h *answerHandler) GetAnswerById(http.ResponseWriter, *http.Request) {}
 

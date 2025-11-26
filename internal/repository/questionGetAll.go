@@ -24,7 +24,7 @@ func convertModelToEntity_ManyQuestions(questions []model.Question) []entity.Que
 
 func convertModelToEntity_OneQuestion(q model.Question) entity.Question {
 	return entity.Question{
-		Id:        q.Id,
+		Id:        q.QuestionId,
 		Text:      q.Text,
 		CreatedAt: q.CreatedAt.Format(consts.FORMAT_LAYOUT_DATE_TIME),
 	}

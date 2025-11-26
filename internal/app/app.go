@@ -31,7 +31,7 @@ func NewApp() *App {
 	var (
 		mux                             = http.NewServeMux()
 		questionHandler questionHandler = handlers.NewQuestionHandler(repo, validator)
-		answerHandler   answerHandler   = handlers.NewAnswerHandler()
+		answerHandler   answerHandler   = handlers.NewAnswerHandler(repo, validator)
 	)
 
 	mux.HandleFunc(http.MethodGet+" /questions", questionHandler.GetAllQuestions)
