@@ -11,6 +11,7 @@ import (
 type questionProvider interface {
 	QuestionGetAll(context.Context) ([]entity.Question, error)
 	QuestionCreate(context.Context, entity.QuestionCreateParams) (entity.QuestionCreateResult, error)
+	QuestionGetWithAnswersById(context.Context, entity.QuestionGetWithAnswersByIdParams) (entity.QuestionGetWithAnswersByIdResult, error)
 }
 
 type questionHandler struct {
@@ -21,7 +22,5 @@ type questionHandler struct {
 func NewQuestionHandler(repo questionProvider, validator *validator.Validate) *questionHandler {
 	return &questionHandler{repo: repo, validator: validator}
 }
-
-func (h *questionHandler) GetQuestionWithAnswersById(http.ResponseWriter, *http.Request) {}
 
 func (h *questionHandler) DeleteQuestionById(http.ResponseWriter, *http.Request) {}
