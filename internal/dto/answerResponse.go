@@ -4,6 +4,10 @@ type AnswerCreate_Response struct {
 	Answer Answer_Response `json:"answer"`
 }
 
+type AnswerGetById_Response struct {
+	Answer Answer_Response `json:"answer"`
+}
+
 type Answer_Response struct {
 	AnswerId   int    `json:"answer_id"`
 	QuestionId int    `json:"question_id"`

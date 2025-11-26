@@ -5,3 +5,7 @@ type AnswerCreate_Request struct {
 	UserId     string `json:"user_id" validate:"required"`
 	Text       string `json:"text" validate:"required"`
 }
+
+type AnswerGetById_Request struct {
+	AnswerId *int `validate:"required,min=1"`
+}

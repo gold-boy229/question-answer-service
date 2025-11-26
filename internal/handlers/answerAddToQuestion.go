@@ -66,7 +66,7 @@ func getQuestionIdFromPath(req *http.Request) (*int, error) {
 	questionIdStr := req.PathValue(routes.PathQuestionId)
 	val, err := strconv.Atoi(questionIdStr)
 	if err != nil {
-		return nil, err
+		return nil, ErrInvalidPathParameter
 	}
 	return &val, nil
 }

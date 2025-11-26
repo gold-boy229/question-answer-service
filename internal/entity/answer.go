@@ -11,6 +11,15 @@ type AnswerCreateResult struct {
 	FoundQuestion bool
 }
 
+type AnswerGetByIdParams struct {
+	AnswerId int
+}
+
+type AnswerGetByIdResult struct {
+	Answer      Answer
+	FoundAnswer bool
+}
+
 type Answer struct {
 	AnswerId   int
 	QuestionId int

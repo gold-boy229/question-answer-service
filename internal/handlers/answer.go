@@ -10,6 +10,7 @@ import (
 
 type answerProvider interface {
 	AnswerCreate(context.Context, entity.AnswerCreateParams) (entity.AnswerCreateResult, error)
+	AnswerGetById(context.Context, entity.AnswerGetByIdParams) (entity.AnswerGetByIdResult, error)
 }
 
 type answerHandler struct {
@@ -20,7 +21,5 @@ type answerHandler struct {
 func NewAnswerHandler(repo answerProvider, validator *validator.Validate) *answerHandler {
 	return &answerHandler{repo: repo, validator: validator}
 }
-
-func (h *answerHandler) GetAnswerById(http.ResponseWriter, *http.Request) {}
 
 func (h *answerHandler) DeleteAnswerById(http.ResponseWriter, *http.Request) {}
