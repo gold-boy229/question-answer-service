@@ -14,7 +14,11 @@ func (h *questionHandler) GetAllQuestions(w http.ResponseWriter, req *http.Reque
 			dto.NewErrorResponse(enum.ERROR_RESPONSE_INTERNAL_SERVER_ERROR, err.Error()))
 	}
 
-	ResponseWithJSON(w, http.StatusOK, convertEntityToDTO_ManyQuestions(questions))
+	ResponseWithJSON(w, http.StatusOK,
+		dto.QuestionGetAll_Response{
+			Questions: convertEntityToDTO_ManyQuestions(questions),
+		},
+	)
 }
 
 func convertEntityToDTO_ManyQuestions(questions []entity.Question) []dto.Question_Response {
