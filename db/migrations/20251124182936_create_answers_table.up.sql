@@ -7,5 +7,5 @@ create table answers (
 );
 
 alter table answers 
-add constraint fk_answers_questions foreign key (question_id) references questions(id);
+add constraint fk_answers_questions foreign key (question_id) references questions(id) ON DELETE CASCADE;
   

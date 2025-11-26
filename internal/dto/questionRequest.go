@@ -7,3 +7,7 @@ type QuestionCreate_Request struct {
 type QuestionGetById_Request struct {
 	QuestionId *int `validate:"required,min=1"`
 }
+
+type QuestionDeleteById_Request struct {
+	QuestionId *int `validate:"required,min=1"`
+}

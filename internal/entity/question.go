@@ -18,6 +18,14 @@ type QuestionGetWithAnswersByIdResult struct {
 	FoundQuestion bool
 }
 
+type QuestionDeleteByIdParams struct {
+	QuestionId int
+}
+
+type QuestionDeleteByIdResult struct {
+	FoundQuestion bool
+}
+
 type Question struct {
 	Id        int
 	Text      string
