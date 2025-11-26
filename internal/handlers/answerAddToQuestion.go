@@ -81,10 +81,12 @@ func convertDTOToEntity_AnsertCreate(reqDTO dto.AnswerCreate_Request) entity.Ans
 
 func convertEntityToDTO_OneAnswer(ans entity.Answer) dto.Answer_Response {
 	return dto.Answer_Response{
-		AnswerId:   ans.AnswerId,
+		AnswerBaseFields_Response: dto.AnswerBaseFields_Response{
+			AnswerId:  ans.AnswerId,
+			UserId:    ans.UserId,
+			Text:      ans.Text,
+			CreatedAt: ans.CreatedAt,
+		},
 		QuestionId: ans.QuestionId,
-		UserId:     ans.UserId,
-		Text:       ans.Text,
-		CreatedAt:  ans.CreatedAt,
 	}
 }

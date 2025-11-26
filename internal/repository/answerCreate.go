@@ -60,10 +60,12 @@ func convertEntityToModel_Answer(params entity.AnswerCreateParams) model.Answer 
 
 func convertModelToEntity_OneAnswer(answer model.Answer) entity.Answer {
 	return entity.Answer{
-		AnswerId:   answer.AnswerId,
 		QuestionId: answer.QuestionId,
-		UserId:     answer.UserId,
-		Text:       answer.Text,
-		CreatedAt:  answer.CreatedAt.Format(consts.FORMAT_LAYOUT_DATE_TIME),
+		AnswerBaseFields: entity.AnswerBaseFields{
+			AnswerId:  answer.AnswerId,
+			UserId:    answer.UserId,
+			Text:      answer.Text,
+			CreatedAt: answer.CreatedAt.Format(consts.FORMAT_LAYOUT_DATE_TIME),
+		},
 	}
 }

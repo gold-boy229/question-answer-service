@@ -29,9 +29,17 @@ type AnswerDeleteByIdResult struct {
 }
 
 type Answer struct {
-	AnswerId   int
+	AnswerBaseFields
 	QuestionId int
-	UserId     string
-	Text       string
-	CreatedAt  string
+}
+
+type AnswerShort struct {
+	AnswerBaseFields
+}
+
+type AnswerBaseFields struct {
+	AnswerId  int
+	UserId    string
+	Text      string
+	CreatedAt string
 }
