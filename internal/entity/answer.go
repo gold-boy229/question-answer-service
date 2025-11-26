@@ -20,6 +20,14 @@ type AnswerGetByIdResult struct {
 	FoundAnswer bool
 }
 
+type AnswerDeleteByIdParams struct {
+	AnswerId int
+}
+
+type AnswerDeleteByIdResult struct {
+	FoundAnswer bool
+}
+
 type Answer struct {
 	AnswerId   int
 	QuestionId int

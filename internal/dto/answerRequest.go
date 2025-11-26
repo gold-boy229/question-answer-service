@@ -9,3 +9,7 @@ type AnswerCreate_Request struct {
 type AnswerGetById_Request struct {
 	AnswerId *int `validate:"required,min=1"`
 }
+
+type AnswerDeleteById_Request struct {
+	AnswerId *int `validate:"required,min=1"`
+}
