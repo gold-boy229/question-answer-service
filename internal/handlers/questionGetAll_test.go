@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 	"net/http/httptest"
 	"question-answer-service/internal/dto"
@@ -14,10 +13,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-)
-
-var (
-	ErrDBConnectionFailed = errors.New("database connection failed")
 )
 
 func TestGetAllQuestions(t *testing.T) {
