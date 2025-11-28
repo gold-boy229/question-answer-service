@@ -22,14 +22,15 @@ func (m *QuestionProvider) QuestionGetAll(ctx context.Context) ([]entity.Questio
 	return args.Get(0).([]entity.Question), args.Error(1)
 }
 
-func (_m *QuestionProvider) QuestionCreate(ctx context.Context, params entity.QuestionCreateParams) (entity.QuestionCreateResult, error) {
-	return entity.QuestionCreateResult{}, ErrNotImplemented
+func (m *QuestionProvider) QuestionCreate(ctx context.Context, params entity.QuestionCreateParams) (entity.QuestionCreateResult, error) {
+	args := m.Called(ctx, params)
+	return args.Get(0).(entity.QuestionCreateResult), args.Error(1)
 }
 
-func (_m *QuestionProvider) QuestionGetWithAnswersById(ctx context.Context, params entity.QuestionGetWithAnswersByIdParams) (entity.QuestionGetWithAnswersByIdResult, error) {
+func (m *QuestionProvider) QuestionGetWithAnswersById(ctx context.Context, params entity.QuestionGetWithAnswersByIdParams) (entity.QuestionGetWithAnswersByIdResult, error) {
 	return entity.QuestionGetWithAnswersByIdResult{}, ErrNotImplemented
 }
 
-func (_m *QuestionProvider) QuestionDeleteById(ctx context.Context, params entity.QuestionDeleteByIdParams) (entity.QuestionDeleteByIdResult, error) {
+func (m *QuestionProvider) QuestionDeleteById(ctx context.Context, params entity.QuestionDeleteByIdParams) (entity.QuestionDeleteByIdResult, error) {
 	return entity.QuestionDeleteByIdResult{}, ErrNotImplemented
 }
