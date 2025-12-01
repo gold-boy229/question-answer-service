@@ -168,7 +168,7 @@ func TestAddAnswerToQuestion(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Setup request and a recorder
 			reqBody := strings.NewReader(tt.requestBody)
-			req := httptest.NewRequest(http.MethodGet, "/questions/"+tt.pathParam+"}/answers", reqBody)
+			req := httptest.NewRequest(http.MethodPost, "/questions/"+tt.pathParam+"}/answers", reqBody)
 			req.SetPathValue(routes.PathQuestionId, tt.pathParam)
 			rr := httptest.NewRecorder()
 
