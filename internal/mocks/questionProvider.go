@@ -33,5 +33,6 @@ func (m *QuestionProvider) QuestionGetWithAnswersById(ctx context.Context, param
 }
 
 func (m *QuestionProvider) QuestionDeleteById(ctx context.Context, params entity.QuestionDeleteByIdParams) (entity.QuestionDeleteByIdResult, error) {
-	return entity.QuestionDeleteByIdResult{}, ErrNotImplemented
+	args := m.Called(ctx, params)
+	return args.Get(0).(entity.QuestionDeleteByIdResult), args.Error(1)
 }
