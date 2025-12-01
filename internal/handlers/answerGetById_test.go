@@ -125,7 +125,7 @@ func TestGetAnswerById(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Setup request and a recorder
-			req := httptest.NewRequest(http.MethodGet, "/answers"+routes.PathAnswerId, nil)
+			req := httptest.NewRequest(http.MethodGet, "/answers/"+routes.PathAnswerId, nil)
 			req.SetPathValue(routes.PathAnswerId, tt.pathParam)
 			rr := httptest.NewRecorder()
 
