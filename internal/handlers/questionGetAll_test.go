@@ -53,7 +53,7 @@ func TestGetAllQuestions(t *testing.T) {
 			expectedStatus: http.StatusInternalServerError,
 			ErrorResponse: dto.ErrorResponse{
 				Code:    enum.ERROR_RESPONSE_INTERNAL_SERVER_ERROR,
-				Message: ErrDBConnectionFailed.Error(),
+				Message: ErrDBConnectionFailed.Error() + " extra string",
 			},
 		},
 	}
