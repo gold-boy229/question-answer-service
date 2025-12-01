@@ -28,7 +28,8 @@ func (m *QuestionProvider) QuestionCreate(ctx context.Context, params entity.Que
 }
 
 func (m *QuestionProvider) QuestionGetWithAnswersById(ctx context.Context, params entity.QuestionGetWithAnswersByIdParams) (entity.QuestionGetWithAnswersByIdResult, error) {
-	return entity.QuestionGetWithAnswersByIdResult{}, ErrNotImplemented
+	args := m.Called(ctx, params)
+	return args.Get(0).(entity.QuestionGetWithAnswersByIdResult), args.Error(1)
 }
 
 func (m *QuestionProvider) QuestionDeleteById(ctx context.Context, params entity.QuestionDeleteByIdParams) (entity.QuestionDeleteByIdResult, error) {
