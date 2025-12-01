@@ -39,8 +39,8 @@ func TestGetAllQuestions(t *testing.T) {
 		{
 			name: "Success case - returns list with two questions",
 			mockReturnData: []entity.Question{
-				{Id: 1, Text: "Q1", CreatedAt: "2023-01-01 10:00:00"},
-				{Id: 2, Text: "Q2", CreatedAt: "2023-01-01 11:00:00"},
+				{Id: 1, Text: "Q1", CreatedAt: "2025-10-25T12:34:56Z"},
+				{Id: 2, Text: "Q2", CreatedAt: "2025-10-26T12:34:56Z"},
 			},
 			mockReturnErr:  nil,
 			expectedStatus: http.StatusOK,
